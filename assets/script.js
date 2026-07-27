@@ -1,0 +1,11 @@
+const header=document.querySelector('.site-header');
+window.addEventListener('scroll',()=>header.classList.toggle('scrolled',scrollY>30));
+const toggle=document.querySelector('.menu-toggle'),nav=document.querySelector('.nav');
+toggle.addEventListener('click',()=>{const open=nav.classList.toggle('open');toggle.setAttribute('aria-expanded',open)});
+nav.querySelectorAll('a').forEach(a=>a.addEventListener('click',()=>nav.classList.remove('open')));
+const observer=new IntersectionObserver(entries=>entries.forEach(e=>{if(e.isIntersecting){e.target.classList.add('visible');observer.unobserve(e.target)}}),{threshold:.12});
+document.querySelectorAll('.reveal').forEach(el=>observer.observe(el));
+document.querySelectorAll('.filters button').forEach(btn=>btn.addEventListener('click',()=>{document.querySelectorAll('.filters button').forEach(b=>b.classList.remove('active'));btn.classList.add('active');const f=btn.dataset.filter;document.querySelectorAll('.project').forEach(p=>p.classList.toggle('hidden',f!=='all'&&p.dataset.category!==f))}));
+document.getElementById('year').textContent=new Date().getFullYear();
+document.getElementById('contactForm').addEventListener('submit',e=>{e.preventDefault();const data=new FormData(e.currentTarget);const subject=encodeURIComponent('Website enquiry from '+data.get('name'));const body=encodeURIComponent(`Name: ${data.get('name')}\nPhone: ${data.get('phone')}\nProject: ${data.get('project')}\n\n${data.get('message')}`);location.href=`mailto:memaar_design@outlook.com?subject=${subject}&body=${body}`;document.getElementById('formNote').textContent='Your email app should open now.'});
+const glow=document.querySelector('.cursor-glow');window.addEventListener('pointermove',e=>{glow.style.left=e.clientX+'px';glow.style.top=e.clientY+'px'});
